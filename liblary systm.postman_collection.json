@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "82071183-fa9f-45ef-b53d-097d12bc816f",
+		"name": "liblary systm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34870968"
+	},
+	"item": [
+		{
+			"name": "git by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/GetBook.php?ID=9687920",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"GetBook.php"
+					],
+					"query": [
+						{
+							"key": "ID",
+							"value": "9687920"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let newColor = pm.variables.replaceIn('{{$randomColor}}')\r",
+							"let newMonth = pm.variables.replaceIn('{{$randomMonth}}')\r",
+							"\r",
+							"let ISBNNumber = pm.variables.replaceIn('{{$randomInt}}')\r",
+							"\r",
+							"let AISLENumber =pm.variables.replaceIn('{{$randomInt}}')\r",
+							"\r",
+							"\r",
+							"let FirstName=pm.variables.replaceIn('{{$randomFirstName}}')\r",
+							"let LastName=pm.variables.replaceIn('{{$randomLastName}}')\r",
+							"\r",
+							"\r",
+							"let newWeekday=pm.variables.replaceIn('{{$randomWeekday}}')\r",
+							"\r",
+							"pm.collectionVariables.set(\"NewBookName\",newColor+\" \"+newMonth)\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.set(\"NewISBNNumber\",ISBNNumber)\r",
+							"pm.collectionVariables.set(\"NewAisleNumber\",AISLENumber*15)\r",
+							"\r",
+							"//pm.collectionVariables.set(\"NewAuthorName\",FirstName+ \" \" + newMonth +\" \"+ newWeekday)\r",
+							"\r",
+							"pm.collectionVariables.set(\"NewAuthorName\",FirstName+ \" \" + LastName)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let MyResponse=pm.response.json()\r",
+							"\r",
+							"let id =MyResponse.ID \r",
+							"\r",
+							"pm.collectionVariables.set(\"NewIdBook\",id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"{{NewBookName}}\",\r\n\"isbn\":\"{{NewISBNNumber}}\",\r\n\"aisle\":\"{{NewAisleNumber}}\",\r\n\"author\":\"{{NewAuthorName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/Addbook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"Addbook.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"ID\" : \"{{NewIdBook}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/DeleteBook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"DeleteBook.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "NewAisleNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewISBNNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewBookName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewAuthorName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewIdBook",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
